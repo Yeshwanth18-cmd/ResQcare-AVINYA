@@ -50,7 +50,7 @@ const PreferredNameModal: React.FC = () => {
     >
       <div
         ref={modalRef}
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-md m-4 p-8"
+        className="relative bg-white rounded-lg shadow-md w-full max-w-md m-4 p-8"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -83,11 +83,11 @@ const PreferredNameModal: React.FC = () => {
               }}
               onKeyPress={(e) => e.key === 'Enter' && handleSave()}
               placeholder="E.g., Alex, Dr. Lee, or a nickname"
-              className={`w-full px-4 py-3 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 ${error ? 'border-red-500 ring-red-500' : 'border-slate-200 focus:ring-blue-500'}`}
+              className={`w-full px-4 py-3 bg-slate-100 border rounded-lg focus:outline-none focus:ring-2 ${error ? 'themed-border-error themed-ring-error' : 'border-slate-200 focus:ring-primary'}`}
               aria-invalid={!!error}
               aria-describedby="name-dialog-error"
            />
-           {error && <p id="name-dialog-error" className="text-sm text-red-600">{error}</p>}
+           {error && <p id="name-dialog-error" className="text-sm themed-text-error">{error}</p>}
         </div>
 
         <div className="mt-8 grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -100,7 +100,7 @@ const PreferredNameModal: React.FC = () => {
           <button
             onClick={handleSave}
             disabled={!name.trim()}
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition disabled:bg-slate-400"
+            className="w-full bg-primary bg-primary-hover text-white font-bold py-3 px-4 rounded-lg transition disabled:bg-slate-400"
           >
             Save Name
           </button>

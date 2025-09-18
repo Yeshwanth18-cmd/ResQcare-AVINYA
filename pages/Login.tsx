@@ -39,12 +39,12 @@ const Login: React.FC = () => {
     <div className="min-h-screen bg-slate-50 flex items-center justify-center p-4">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-            <IconShieldCheck className="h-12 w-12 text-blue-500 mx-auto" />
+            <IconShieldCheck className="h-12 w-12 text-primary mx-auto" />
             <h1 className="text-3xl font-bold text-slate-800 mt-2">Welcome to ResQcare</h1>
             <p className="text-slate-600">Sign in to access your health dashboard.</p>
         </div>
 
-        <div className="bg-white p-8 rounded-2xl shadow-lg">
+        <div className="bg-white p-8 rounded-lg shadow-md">
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
               <label htmlFor="email" className="block text-sm font-medium text-slate-700">Email Address</label>
@@ -54,7 +54,7 @@ const Login: React.FC = () => {
                 value={email}
                 onChange={(e) => setEmail(e.target.value)}
                 required
-                className="mt-1 block w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                className="mt-1 block w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
                 placeholder="you@example.com"
               />
             </div>
@@ -68,7 +68,7 @@ const Login: React.FC = () => {
                   value={password}
                   onChange={(e) => setPassword(e.target.value)}
                   required
-                  className="block w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 pr-10"
+                  className="block w-full px-4 py-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary pr-10"
                   placeholder="••••••••"
                 />
                 <button
@@ -89,7 +89,7 @@ const Login: React.FC = () => {
                   type="checkbox"
                   checked={rememberMe}
                   onChange={(e) => setRememberMe(e.target.checked)}
-                  className="h-4 w-4 text-blue-600 border-slate-300 rounded focus:ring-blue-500"
+                  className="h-4 w-4 text-primary border-slate-300 rounded focus:ring-primary"
                 />
                 <label htmlFor="remember-me" className="ml-2 block text-sm text-slate-900">Remember me</label>
                 <div className="group relative ml-2">
@@ -107,7 +107,7 @@ const Login: React.FC = () => {
               <button
                 type="submit"
                 disabled={isLoggingIn}
-                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:bg-slate-400 h-[48px] items-center"
+                className="w-full flex justify-center py-3 px-4 border border-transparent rounded-full shadow-sm text-sm font-bold text-white bg-primary bg-primary-hover focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary disabled:bg-slate-400 h-[48px] items-center"
               >
                 {isLoggingIn ? 'Signing in...' : 'Sign In'}
               </button>

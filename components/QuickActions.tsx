@@ -43,12 +43,12 @@ const QuickActions: React.FC<QuickActionsProps> = ({ actions }) => {
                     <Link
                         key={actionId}
                         to={action.link}
-                        className="group flex flex-col items-center justify-center text-center p-4 bg-white rounded-2xl shadow-lg hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
+                        className="group flex flex-col items-center justify-center text-center p-4 bg-white rounded-lg shadow-md hover:shadow-xl hover:-translate-y-1 transition-all duration-300"
                     >
-                        <div className="bg-blue-100 rounded-full p-4 transition-colors group-hover:bg-blue-200">
-                           <action.icon className="w-8 h-8 text-blue-600" />
+                        <div className="bg-primary-light rounded-full p-4 transition-colors group-hover:opacity-80">
+                           <action.icon className="w-8 h-8 text-primary" />
                         </div>
-                        <p className="mt-3 font-semibold text-slate-700 group-hover:text-blue-600 transition-colors">{action.label}</p>
+                        <p className="mt-3 font-semibold text-slate-700 group-hover:text-primary transition-colors">{action.label}</p>
                     </Link>
                 );
             })}

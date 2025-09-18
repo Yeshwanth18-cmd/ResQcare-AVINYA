@@ -1,4 +1,5 @@
 
+
 import React from 'react';
 import { IconAlertTriangle, IconPhone, IconX } from './Icons';
 
@@ -16,7 +17,7 @@ const CrisisModal: React.FC<CrisisModalProps> = ({ isOpen, onClose }) => {
       onClick={onClose}
     >
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-lg m-4 p-8 border-2 border-red-500 animate-fade-in"
+        className="relative bg-white rounded-lg shadow-md w-full max-w-lg m-4 p-8 border-2 themed-border-error animate-fade-in"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -27,7 +28,7 @@ const CrisisModal: React.FC<CrisisModalProps> = ({ isOpen, onClose }) => {
         </button>
 
         <div className="text-center">
-          <IconAlertTriangle className="mx-auto h-16 w-16 text-red-500" />
+          <IconAlertTriangle className="mx-auto h-16 w-16 themed-text-error" />
           <h2 className="mt-4 text-2xl font-extrabold text-slate-900">
             Immediate Support Is Available
           </h2>
@@ -39,7 +40,7 @@ const CrisisModal: React.FC<CrisisModalProps> = ({ isOpen, onClose }) => {
         <div className="mt-8 space-y-4">
           <a
             href="tel:988"
-            className="w-full flex items-center justify-center gap-3 bg-red-500 hover:bg-red-600 text-white font-bold py-3 px-4 rounded-lg transition-transform duration-200 ease-in-out hover:scale-105"
+            className="w-full flex items-center justify-center gap-3 themed-bg-error themed-bg-error-hover text-white font-bold py-3 px-4 rounded-lg transition-transform duration-200 ease-in-out hover:scale-105"
           >
             <IconPhone className="h-6 w-6" />
             <span>Call or Text 988 (Suicide & Crisis Lifeline)</span>

@@ -22,7 +22,7 @@ const CalendarPage: React.FC = () => {
     if (isConnecting) {
         return (
             <div className="flex items-center justify-center h-64">
-                <div className="w-8 h-8 border-4 border-slate-200 border-t-blue-500 rounded-full animate-spin"></div>
+                <div className="w-8 h-8 border-4 border-slate-200 border-t-primary rounded-full animate-spin"></div>
             </div>
         );
     }
@@ -41,7 +41,7 @@ const CalendarPage: React.FC = () => {
                 </div>
                 <button
                     onClick={handleAddClick}
-                    className="flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-200 ease-in-out transform hover:scale-105"
+                    className="flex items-center gap-2 bg-primary bg-primary-hover text-white font-bold py-3 px-6 rounded-full transition-all duration-200 ease-in-out transform hover:scale-105"
                 >
                     <IconPlus className="w-5 h-5" />
                     <span>New Appointment</span>

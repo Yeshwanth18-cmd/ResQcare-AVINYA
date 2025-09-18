@@ -30,7 +30,7 @@ export interface Assessment {
 // For Resources
 export interface Resource {
   id: string;
-  title: string;
+  title:string;
   description: string;
   contentType: 'Article' | 'Video' | 'Audio' | 'Guide' | 'Exercise';
   category: 'Anxiety' | 'Depression' | 'Stress' | 'Sleep' | 'Mindfulness' | 'Self-Care' | 'Crisis Support';
@@ -40,6 +40,13 @@ export interface Resource {
   audience: 'General' | 'Youth' | 'Adults' | 'Family';
   difficulty: 'Beginner' | 'Intermediate' | 'Advanced';
   timeToComplete: number; // in minutes
+  publish_date?: string;
+  author?: string;
+  key_points?: string[];
+  ai_summary?: string;
+  ai_related_links?: { title: string; url: string; }[];
+  is_ai_generated?: boolean;
+  needs_review?: boolean;
 }
 
 
@@ -65,24 +72,25 @@ export interface Hospital {
   rating: number;
   services: string[];
   booking_url: string;
-  map_link: string;
+  address: string;
+  directions_url: string;
+  marker_color?: string;
 }
 
 // For Symptom Checker
+export interface SymptomAnalysis {
+  possible_causes: string[];
+  urgency: 'low' | 'medium' | 'high' | 'urgent';
+  self_care_advice: string;
+  resources: string[];
+}
+
 export interface SymptomAnalysisResult {
-  location: {
-    lat: number;
-    lon: number;
-    accuracy_m: number;
-    source: string;
-  };
-  radius_km: number;
-  hospitals: Hospital[];
+  symptom_analysis: SymptomAnalysis;
+  hospitals: Hospital[] | null;
+  emergency: boolean;
+  emergency_contacts: string[] | null;
   message: string;
-  action: {
-    show_nearest: boolean;
-    out_of_range: boolean;
-  };
   ui: {
     theme: string;
     primary: string;
@@ -90,6 +98,55 @@ export interface SymptomAnalysisResult {
     text: string;
     background: string;
   };
+}
+
+// For Appointment Booking
+export interface AvailableSlot {
+  date: string; // "YYYY-MM-DD"
+  times: string[]; // ["HH:MM"]
+}
+
+export interface AppointmentOptions {
+  in_person: boolean;
+  telehealth: boolean;
+  available_slots: AvailableSlot[];
+  requires_reason: boolean;
+  allows_attachments: boolean;
+}
+
+export interface AppointmentDetails {
+  id: string;
+  date: string; // "YYYY-MM-DD"
+  time: string; // "HH:MM"
+  type: 'in_person' | 'telehealth';
+  reason: string;
+  confirmation_url: string;
+  calendar_url: string;
+  reminder: {
+    email: boolean;
+    sms: boolean;
+    push: boolean;
+  };
+}
+
+export interface BookingConfirmation {
+  status: 'booked';
+  hospital: Hospital;
+  appointment: AppointmentDetails;
+  message: string;
+}
+
+export interface AppointmentOptionsResult {
+    hospital: Hospital;
+    appointment_options: AppointmentOptions;
+    ui: {
+        theme: string;
+        primary: string;
+        secondary: string;
+        text: string;
+        background: string;
+    };
+    message: string;
 }
 
 // For Mood Logging

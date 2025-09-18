@@ -16,10 +16,10 @@ const GoogleCalendarConnect: React.FC = () => {
 
     if (isConnected) {
         return (
-            <div className="flex items-center justify-between p-4 bg-green-50 border border-green-200 rounded-lg">
+            <div className="flex items-center justify-between p-4 bg-green-50 rounded-lg" style={{ backgroundColor: 'var(--color-success-light)'}}>
                 <div className="flex items-center gap-3">
                     <IconGoogle className="w-6 h-6" />
-                    <p className="font-semibold text-green-800">Calendar Connected</p>
+                    <p className="font-semibold" style={{ color: 'var(--color-success-text)'}}>Calendar Connected</p>
                 </div>
                 <button
                     onClick={disconnectGoogleCalendar}
@@ -34,7 +34,7 @@ const GoogleCalendarConnect: React.FC = () => {
     return (
         <button
             onClick={connectGoogleCalendar}
-            className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+            className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-primary"
         >
             <IconGoogle className="w-6 h-6" />
             <span>Connect Google Calendar</span>

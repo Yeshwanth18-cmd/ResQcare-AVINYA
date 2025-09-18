@@ -23,7 +23,7 @@ const MoodLogHistory: React.FC = () => {
       </div>
 
       {sortedLogsForChart.length > 1 ? (
-          <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8 mb-8">
+          <div className="bg-white shadow-md rounded-lg p-6 md:p-8 mb-8">
               <h2 className="text-2xl font-bold text-slate-800 mb-4">Your Mood Trend</h2>
               <MoodChart data={sortedLogsForChart} />
           </div>
@@ -32,7 +32,7 @@ const MoodLogHistory: React.FC = () => {
       <div className="space-y-6">
         {sortedLogsForDisplay.length > 0 ? (
           sortedLogsForDisplay.map(log => (
-            <div key={log.id} className="bg-white shadow-lg rounded-2xl p-6 flex items-start gap-6">
+            <div key={log.id} className="bg-white shadow-md rounded-lg p-6 flex items-start gap-6">
               <div className="text-5xl">{log.emoji}</div>
               <div className="flex-1">
                 <div className="flex justify-between items-start">
@@ -53,7 +53,7 @@ const MoodLogHistory: React.FC = () => {
             </div>
           ))
         ) : (
-          <div className="text-center bg-white shadow-lg rounded-2xl p-12">
+          <div className="text-center bg-white shadow-md rounded-lg p-12">
             <IconJournal className="w-16 h-16 mx-auto text-slate-400" />
             <h2 className="mt-4 text-2xl font-bold text-slate-800">No Moods Logged Yet</h2>
             <p className="mt-2 text-slate-600">Start logging your mood on the dashboard to see your history here.</p>

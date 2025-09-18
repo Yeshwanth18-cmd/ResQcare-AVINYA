@@ -75,7 +75,7 @@ const AfterLogModal: React.FC<AfterLogModalProps> = ({ isOpen, onClose, moodLog 
       aria-labelledby="after-log-title"
     >
       <div
-        className="relative bg-white rounded-2xl shadow-2xl w-full max-w-2xl m-4 p-8 animate-fade-in-up"
+        className="relative bg-white rounded-lg shadow-md w-full max-w-2xl m-4 p-8 animate-fade-in-up"
         onClick={(e) => e.stopPropagation()}
       >
         <button
@@ -98,7 +98,7 @@ const AfterLogModal: React.FC<AfterLogModalProps> = ({ isOpen, onClose, moodLog 
 
         <div className="mt-8 space-y-6">
           {recommendations.isCrisis && (
-            <div className="p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-r-lg flex items-start gap-3">
+            <div className="p-4 themed-alert-warning rounded-r-lg flex items-start gap-3">
               <IconAlertTriangle className="w-8 h-8 flex-shrink-0" />
               <div>
                 <p className="font-bold">Feeling Overwhelmed?</p>
@@ -113,10 +113,10 @@ const AfterLogModal: React.FC<AfterLogModalProps> = ({ isOpen, onClose, moodLog 
           </div>
 
           {recommendations.suggestedResource && (
-             <a href={recommendations.suggestedResource.link} target="_blank" rel="noopener noreferrer" className="block text-left p-6 bg-blue-50 rounded-lg hover:bg-blue-100 transition-colors">
-                <h3 className="font-bold text-blue-800 flex items-center gap-2"><IconShieldCheck className="w-5 h-5"/> Suggested For You</h3>
-                <p className="mt-2 text-blue-700 font-semibold">{recommendations.suggestedResource.title}</p>
-                <p className="text-sm text-blue-600 mt-1">{recommendations.suggestedResource.description}</p>
+             <a href={recommendations.suggestedResource.link} target="_blank" rel="noopener noreferrer" className="block text-left p-6 bg-primary-light rounded-lg hover:opacity-80 transition-opacity">
+                <h3 className="font-bold text-primary-text flex items-center gap-2"><IconShieldCheck className="w-5 h-5"/> Suggested For You</h3>
+                <p className="mt-2 text-primary-text font-semibold">{recommendations.suggestedResource.title}</p>
+                <p className="text-sm text-primary mt-1">{recommendations.suggestedResource.description}</p>
             </a>
           )}
         </div>
@@ -126,7 +126,7 @@ const AfterLogModal: React.FC<AfterLogModalProps> = ({ isOpen, onClose, moodLog 
               <IconChartBar className="w-5 h-5"/>
               View Mood History
             </Link>
-             <button onClick={onClose} className="w-full bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-4 rounded-lg transition">
+             <button onClick={onClose} className="w-full bg-primary bg-primary-hover text-white font-bold py-3 px-4 rounded-lg transition">
                 Done
             </button>
         </div>

@@ -8,6 +8,7 @@ import Assessments from './pages/Assessments';
 import AssessmentForm from './components/AssessmentForm';
 import Chat from './pages/Chat';
 import Resources from './pages/Resources';
+import ResourceDetail from './pages/ResourceDetail';
 import Profile from './pages/Profile';
 import PostLoginGuide from './components/PostLoginGuide';
 import MoodLogHistory from './pages/MoodLogHistory';
@@ -82,6 +83,7 @@ const MainApp: React.FC = () => {
             />
             <Route path="/chat" element={<Chat />} />
             <Route path="/resources" element={<Resources />} />
+            <Route path="/resources/:id" element={<ResourceDetail />} />
             <Route path="/profile" element={<Profile profile={profile} onProfileChange={handleProfileChange} />} />
             <Route path="/mood-history" element={<MoodLogHistory />} />
             <Route path="/calendar" element={<CalendarPage />} />

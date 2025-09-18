@@ -58,11 +58,26 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Guide',
     category: 'Stress',
     tags: ['stress', 'coping-strategies', 'mindfulness', 'self-help'],
-    link: '#',
+    link: 'https://www.who.int/publications/i/item/9789240003927',
     source: 'WHO',
     audience: 'General',
     difficulty: 'Beginner',
     timeToComplete: 20,
+    publish_date: '2020-03-30',
+    author: 'World Health Organization',
+    key_points: [
+        "Learn grounding techniques to manage overwhelming feelings.",
+        "Practice unhooking from unhelpful thoughts and emotions.",
+        "Identify your personal values to guide your actions.",
+        "Develop a step-by-step plan to solve problems effectively."
+    ],
+    is_ai_generated: true,
+    needs_review: true,
+    ai_summary: 'This WHO illustrated guide offers practical skills for stress management, such as grounding and unhooking from negative thoughts. It is designed to be accessible and easy to follow.',
+    ai_related_links: [
+        { title: 'Mindful Breathing Exercise', url: '/resources/who-mindfulness-audio-5' },
+        { title: 'Coping with Depression (SAMHSA)', url: '/resources/samhsa-depression-guide-3' }
+    ]
   },
   {
     id: 'nimh-anxiety-brochure-2',
@@ -71,11 +86,26 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Article',
     category: 'Anxiety',
     tags: ['anxiety', 'education', 'treatment', 'symptoms'],
-    link: '#',
+    link: 'https://www.nimh.nih.gov/health/topics/anxiety-disorders',
     source: 'NIMH',
     audience: 'General',
     difficulty: 'Intermediate',
     timeToComplete: 15,
+    publish_date: '2023-04-01',
+    author: 'National Institute of Mental Health',
+    key_points: [
+        "Anxiety disorders involve more than temporary worry or fear.",
+        "Several major types of anxiety disorders exist, including GAD, Panic Disorder, and Phobias.",
+        "Effective treatments include psychotherapy and medication.",
+        "Consulting a healthcare provider is the first step to diagnosis."
+    ],
+    is_ai_generated: true,
+    needs_review: false,
+    ai_summary: 'An NIMH overview of various anxiety disorders, covering symptoms and potential treatments. It serves as a foundational educational resource for patients and families.',
+    ai_related_links: [
+        { title: 'Take GAD-7 Anxiety Screener', url: '#/assessments/gad-7' },
+        { title: '988 Suicide & Crisis Lifeline', url: '/resources/samhsa-crisis-hotline-7' }
+    ]
   },
   {
     id: 'samhsa-depression-guide-3',
@@ -84,11 +114,19 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Guide',
     category: 'Depression',
     tags: ['depression', 'coping-strategies', 'support', 'self-help'],
-    link: '#',
+    link: 'https://store.samhsa.gov/product/coping-depression',
     source: 'SAMHSA',
     audience: 'Adults',
     difficulty: 'Beginner',
     timeToComplete: 10,
+    publish_date: '2021-09-15',
+    author: 'SAMHSA',
+    key_points: [
+        "Depression is a treatable medical illness.",
+        "Building a support system is crucial for recovery.",
+        "Self-care activities like exercise can improve mood.",
+        "It's important to seek professional help."
+    ],
   },
   {
     id: 'nih-sleep-hygiene-4',
@@ -97,11 +135,19 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Article',
     category: 'Sleep',
     tags: ['sleep', 'health', 'self-care', 'habits'],
-    link: '#',
+    link: 'https://www.nhlbi.nih.gov/health/sleep-deprivation/healthy-sleep-habits',
     source: 'NIH',
     audience: 'General',
     difficulty: 'Beginner',
     timeToComplete: 5,
+    publish_date: '2022-07-28',
+    author: 'National Institutes of Health',
+    key_points: [
+        "Stick to a regular sleep schedule.",
+        "Create a restful environment.",
+        "Avoid large meals, caffeine, and alcohol before bedtime.",
+        "Get some exercise during the day."
+    ],
   },
   {
     id: 'who-mindfulness-audio-5',
@@ -110,11 +156,18 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Audio',
     category: 'Mindfulness',
     tags: ['mindfulness', 'stress', 'anxiety', 'exercise', 'audio'],
-    link: '#',
+    link: 'https://www.who.int/teams/mental-health-and-substance-use/promotion-prevention/mental-health-in-the-workplace/who-workplace-mental-health-training-resources',
     source: 'WHO',
     audience: 'General',
     difficulty: 'Beginner',
     timeToComplete: 5,
+    author: 'World Health Organization',
+    key_points: [
+        "Find a comfortable and quiet place.",
+        "Focus on the sensation of your breath.",
+        "Gently return your attention when your mind wanders.",
+        "Practice regularly for best results."
+    ],
   },
   {
     id: 'nimh-youth-mental-health-6',
@@ -123,11 +176,18 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Guide',
     category: 'Self-Care',
     tags: ['youth', 'education', 'support', 'help'],
-    link: '#',
+    link: 'https://www.nimh.nih.gov/health/topics/child-and-adolescent-mental-health',
     source: 'NIMH',
     audience: 'Youth',
     difficulty: 'Intermediate',
     timeToComplete: 10,
+    author: 'National Institute of Mental Health',
+    key_points: [
+      "It's common for young people to experience mental health challenges.",
+      "Recognize the signs and symptoms of common disorders.",
+      "Know where and how to find help.",
+      "Explore digital mental health resources and tools."
+    ]
   },
   {
     id: 'samhsa-crisis-hotline-7',
@@ -136,11 +196,18 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Guide',
     category: 'Crisis Support',
     tags: ['crisis', 'suicide-prevention', 'emergency', 'support'],
-    link: '#',
+    link: 'https://988lifeline.org/',
     source: 'SAMHSA',
     audience: 'General',
     difficulty: 'Beginner',
     timeToComplete: 2,
+    author: 'SAMHSA',
+    key_points: [
+        "The 988 Lifeline is available 24/7.",
+        "Support is free, confidential, and available to everyone.",
+        "You can call, text, or chat 988.",
+        "It's for anyone in emotional distress or suicidal crisis."
+    ],
   },
   {
     id: 'nih-self-care-8',
@@ -149,11 +216,18 @@ export const MENTAL_HEALTH_RESOURCES: Resource[] = [
     contentType: 'Article',
     category: 'Self-Care',
     tags: ['self-care', 'health', 'positivity', 'coping-strategies'],
-    link: '#',
+    link: 'https://www.nimh.nih.gov/health/topics/caring-for-your-mental-health',
     source: 'NIH',
     audience: 'General',
     difficulty: 'Beginner',
     timeToComplete: 5,
+    author: 'National Institutes of Health',
+    key_points: [
+      "Practice regular physical activity.",
+      "Maintain a healthy, balanced diet.",
+      "Prioritize getting quality sleep.",
+      "Connect with others and build a support system."
+    ]
   },
 ];
 

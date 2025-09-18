@@ -45,7 +45,7 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, onDayClick }) => {
   const today = new Date();
 
   return (
-    <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8">
+    <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
       <div className="flex justify-between items-center mb-6">
         <button onClick={() => changeMonth(-1)} className="p-2 rounded-full hover:bg-slate-100">&larr;</button>
         <h2 className="text-xl font-bold text-slate-800">
@@ -67,12 +67,12 @@ const CalendarView: React.FC<CalendarViewProps> = ({ events, onDayClick }) => {
               onClick={() => onDayClick(d)}
               className={`p-2 h-28 border border-slate-100 rounded-lg cursor-pointer transition-colors hover:bg-slate-50 ${isCurrentMonth ? 'bg-white' : 'bg-slate-50'}`}
             >
-              <div className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-semibold ${isToday ? 'bg-blue-600 text-white' : isCurrentMonth ? 'text-slate-700' : 'text-slate-400'}`}>
+              <div className={`flex items-center justify-center w-7 h-7 rounded-full text-sm font-semibold ${isToday ? 'bg-primary text-white' : isCurrentMonth ? 'text-slate-700' : 'text-slate-400'}`}>
                 {d.getDate()}
               </div>
               <div className="mt-1 space-y-1 overflow-y-auto max-h-16">
                 {dayEvents.slice(0, 2).map(event => (
-                  <div key={event.id} className={`flex items-center gap-1 text-xs px-1 py-0.5 rounded ${event.source === 'google' ? 'bg-green-100 text-green-800' : 'bg-blue-100 text-blue-800'}`}>
+                  <div key={event.id} className={`flex items-center gap-1 text-xs px-1 py-0.5 rounded ${event.source === 'google' ? 'bg-green-100 text-green-800' : 'bg-primary-light text-primary-text'}`}>
                      {event.source === 'google' && <IconGoogle className="w-3 h-3 flex-shrink-0" />}
                     <p className="truncate">{event.title}</p>
                   </div>

@@ -17,7 +17,7 @@ const ThemePicker: React.FC = () => {
             key={key}
             onClick={() => setTheme(key)}
             aria-label={`Set ${themeValue.name} theme`}
-            className={`relative p-4 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 ${isActive ? 'border-blue-500' : 'border-slate-200 hover:border-slate-400'}`}
+            className={`relative p-4 rounded-lg border-2 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary ${isActive ? 'border-primary' : 'border-slate-200 hover:border-slate-400'}`}
           >
             <div className="flex flex-col items-center gap-2">
                 <div className="w-10 h-10 rounded-full" style={{ backgroundColor: themeValue.palette['--color-primary'] }}></div>
@@ -25,7 +25,7 @@ const ThemePicker: React.FC = () => {
             </div>
              {isActive && (
               <div className="absolute top-1 right-1 bg-white rounded-full">
-                <IconCheckCircle className="w-5 h-5 text-blue-500" />
+                <IconCheckCircle className="w-5 h-5 text-primary" />
               </div>
             )}
           </button>

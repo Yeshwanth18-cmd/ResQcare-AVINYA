@@ -18,17 +18,17 @@ const Settings: React.FC = () => {
       </div>
 
       <div className="space-y-8">
-        <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8">
+        <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Color Theme</h2>
             <p className="text-slate-600 mb-6">Choose a palette that feels most calming and comfortable for you. The app is in light mode by default.</p>
             <ThemePicker />
         </div>
         
-        <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8">
+        <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
           <ReminderSettings />
         </div>
         
-        <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8">
+        <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Integrations</h2>
             <p className="text-slate-600 mb-6">Connect your Google Calendar to sync appointments and stay organized.</p>
             <GoogleCalendarConnect />

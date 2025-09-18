@@ -21,27 +21,27 @@ const AccountSettings: React.FC = () => {
     };
 
     return (
-        <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8">
+        <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-4">Account Settings</h2>
             <p className="text-slate-600 mb-6">Manage your session, preferred name, and account security.</p>
             <div className="space-y-4">
                 <button
                     onClick={openNameModal}
-                    className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                     <IconUserCircle className="w-5 h-5" />
                     <span>{user?.hasSetPreferredName ? 'Change' : 'Set'} Your Name</span>
                 </button>
                 <button
                     onClick={handleLogout}
-                    className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                     <IconLogout className="w-5 h-5" />
                     <span>Log Out</span>
                 </button>
                 <button
                     onClick={handleLogoutAll}
-                    className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className="w-full flex items-center justify-center gap-3 bg-slate-100 hover:bg-slate-200 text-slate-800 font-semibold py-3 px-4 rounded-lg transition-colors h-[48px] focus:outline-none focus:ring-2 focus:ring-primary"
                 >
                     <IconDevices className="w-5 h-5" />
                     <span>Log Out of All Devices</span>
@@ -82,20 +82,20 @@ const Profile: React.FC<ProfileProps> = ({ profile, onProfileChange }) => {
       </div>
 
       <div className="space-y-8">
-        <div className="bg-white shadow-lg rounded-2xl p-6 md:p-8">
+        <div className="bg-white shadow-md rounded-lg p-6 md:p-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">Demo Profile</h2>
           <p className="text-slate-600 mb-6">Select a profile to see how the app adapts its guidance and content. This is for demonstration purposes.</p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
             <div>
               <label htmlFor="age-tier" className="block text-sm font-medium text-slate-700 mb-2">Age Group</label>
-              <select id="age-tier" value={profile.ageTier} onChange={handleAgeChange} className="w-full p-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select id="age-tier" value={profile.ageTier} onChange={handleAgeChange} className="w-full p-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                 <option value="youth">Youth (13-24)</option>
                 <option value="adult">Adult (25+)</option>
               </select>
             </div>
             <div>
               <label htmlFor="condition-tier" className="block text-sm font-medium text-slate-700 mb-2">Condition Focus</label>
-              <select id="condition-tier" value={profile.conditionTier} onChange={handleConditionChange} className="w-full p-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500">
+              <select id="condition-tier" value={profile.conditionTier} onChange={handleConditionChange} className="w-full p-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary">
                 <option value="anxiety_depression">Anxiety & Depression</option>
                 <option value="chronic_generic">Chronic & General</option>
               </select>
@@ -103,9 +103,9 @@ const Profile: React.FC<ProfileProps> = ({ profile, onProfileChange }) => {
           </div>
         </div>
 
-        <Link to="/settings" className="block bg-white shadow-lg rounded-2xl p-6 md:p-8 hover:shadow-xl transition-shadow">
+        <Link to="/settings" className="block bg-white shadow-md rounded-lg p-6 md:p-8 hover:shadow-xl transition-shadow">
           <div className="flex items-center gap-4">
-            <IconSettings className="w-8 h-8 text-blue-500"/>
+            <IconSettings className="w-8 h-8 text-primary"/>
             <div>
               <h2 className="text-2xl font-bold text-slate-900">App Settings</h2>
               <p className="text-slate-600">Customize themes, reminders, and integrations.</p>

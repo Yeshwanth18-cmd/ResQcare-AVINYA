@@ -5,6 +5,9 @@
     <link rel="icon" type="image/svg+xml" href="/vite.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>ResQcare</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
   <script type="importmap">
 {
@@ -31,16 +34,27 @@
     --color-ring: #60a5fa; /* blue-400 */
   }
   body[data-theme="clinic"] {
-    --color-primary: #2a8bf2; /* Professional blue from spec */
-    --color-primary-hover: #1e78d6; /* Slightly darker for hover */
-    --color-primary-light: #e6f7ff; /* Secondary from spec */
-    --color-primary-text: #0d5a9e; /* Darker blue for text on light bg */
-    --color-background: #f8f9fa; /* A very light grey for depth */
-    --color-surface: #ffffff; /* Pure white for cards */
-    --color-text-main: #111111; /* Text from spec */
-    --color-text-muted: #555555; /* Muted grey, higher contrast */
-    --color-border: #e2e8f0; /* Soft border color */
-    --color-ring: #5ba8f5; /* Ring color derived from primary */
+    --color-primary: #2a8bf2;
+    --color-primary-hover: #1e78d6;
+    --color-primary-light: #e6f7ff;
+    --color-primary-text: #0d5a9e;
+    --color-background: #ffffff;
+    --color-surface: #ffffff;
+    --color-text-main: #1a1a1a; /* Updated for higher contrast */
+    --color-text-muted: #555555; /* Updated for softer muted text */
+    --color-border: #e2e8f0;
+    --color-ring: #5ba8f5;
+    /* Medically Validated Accent Colors */
+    --color-success: #4CAF50;
+    --color-success-light: #e8f5e9;
+    --color-success-text: #1b5e20;
+    --color-warning: #FF9800;
+    --color-warning-light: #fff3e0;
+    --color-warning-text: #e65100;
+    --color-error: #F44336;
+    --color-error-hover: #d32f2f; /* Updated for consistency */
+    --color-error-light: #ffebee;
+    --color-error-text: #c62828;
   }
   body[data-theme="coral"] {
     --color-primary: #ef4444; /* red-500 */
@@ -83,9 +97,79 @@
     background-color: var(--color-background);
     color: var(--color-text-main);
     transition: background-color 0.3s ease, color 0.3s ease;
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    font-family: 'Open Sans', -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
+    line-height: 1.6; /* Increased for readability */
+  }
+  /* Subtle Background Animation */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100vw;
+    height: 100vh;
+    z-index: -1;
+    background: linear-gradient(135deg, var(--color-primary-light), var(--color-background), var(--color-primary-light));
+    background-size: 200% 200%;
+    animation: gradientFlow 30s ease infinite;
+    will-change: background-position;
+  }
+  @keyframes gradientFlow {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  /* Respect user motion preferences */
+  @media (prefers-reduced-motion: reduce) {
+    body::before {
+      animation: none;
+    }
+  }
+
+  /* Themed Utility Classes */
+  .themed-alert-success { background-color: var(--color-success-light); border-left-width: 4px; border-color: var(--color-success); color: var(--color-success-text); }
+  .themed-alert-warning { background-color: var(--color-warning-light); border-left-width: 4px; border-color: var(--color-warning); color: var(--color-warning-text); }
+  .themed-alert-error { background-color: var(--color-error-light); border-left-width: 4px; border-color: var(--color-error); color: var(--color-error-text); }
+  .themed-text-success { color: var(--color-success); }
+  .themed-text-error { color: var(--color-error); }
+  .themed-bg-error { background-color: var(--color-error); }
+  .themed-bg-error-hover:hover { background-color: var(--color-error-hover); }
+  .themed-border-error { border-color: var(--color-error); }
+  .themed-ring-error:focus { --tw-ring-color: var(--color-error) }
+
+  /* New Theme-Aware Utility Classes */
+  .bg-primary { background-color: var(--color-primary); }
+  .bg-primary-hover:hover { background-color: var(--color-primary-hover); }
+  .bg-primary-light { background-color: var(--color-primary-light); }
+  .text-primary { color: var(--color-primary); }
+  .text-primary-text { color: var(--color-primary-text); }
+  .border-primary { border-color: var(--color-primary); }
+  .ring-primary { --tw-ring-color: var(--color-ring); }
+  .focus\:ring-primary:focus { --tw-ring-color: var(--color-ring) !important; box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); }
+
+  /* Smooth Transitions & Card Styling */
+  .bg-white.shadow-md, button, a, [role="button"] {
+    transition: color 250ms ease-in-out, background-color 250ms ease-in-out, border-color 250ms ease-in-out, transform 250ms ease-in-out, box-shadow 250ms ease-in-out;
+  }
+
+  @keyframes pulse {
+    0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(42, 139, 242, 0.7);
+    }
+    70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(42, 139, 242, 0);
+    }
+    100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(42, 139, 242, 0);
+    }
+  }
+  .pulse-dot {
+    animation: pulse 2s infinite;
   }
 </style>
 </head>
