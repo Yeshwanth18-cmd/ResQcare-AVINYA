@@ -1,0 +1,5 @@
+{
+  "name": "ResQcare",
+  "description": "ResQcare is an AI-powered healthcare platform for symptom triage and emergency notification. It helps classify urgency and guides users to the appropriate care pathway.",
+  "requestFramePermissions": []
+}
