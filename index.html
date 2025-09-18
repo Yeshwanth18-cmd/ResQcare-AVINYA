@@ -17,8 +17,64 @@
   }
 }
 </script>
+<style>
+  :root, body[data-theme="sky"] {
+    --color-primary: #3b82f6; /* blue-500 */
+    --color-primary-hover: #2563eb; /* blue-600 */
+    --color-primary-light: #eff6ff; /* blue-50 */
+    --color-primary-text: #1e40af; /* blue-800 */
+    --color-background: #f8fafc; /* slate-50 */
+    --color-surface: #ffffff;
+    --color-text-main: #1e293b; /* slate-800 */
+    --color-text-muted: #64748b; /* slate-500 */
+    --color-border: #e2e8f0; /* slate-200 */
+    --color-ring: #60a5fa; /* blue-400 */
+  }
+  body[data-theme="coral"] {
+    --color-primary: #ef4444; /* red-500 */
+    --color-primary-hover: #dc2626; /* red-600 */
+    --color-primary-light: #fef2f2; /* red-50 */
+    --color-primary-text: #991b1b; /* red-800 */
+    --color-ring: #f87171; /* red-400 */
+  }
+  body[data-theme="mint"] {
+    --color-primary: #10b981; /* emerald-500 */
+    --color-primary-hover: #059669; /* emerald-600 */
+    --color-primary-light: #ecfdf5; /* emerald-50 */
+    --color-primary-text: #065f46; /* emerald-800 */
+    --color-ring: #34d399; /* emerald-400 */
+  }
+  body[data-theme="olive"] {
+    --color-primary: #84cc16; /* lime-500 */
+    --color-primary-hover: #65a30d; /* lime-600 */
+    --color-primary-light: #f7fee7; /* lime-50 */
+    --color-primary-text: #3f6212; /* lime-800 */
+    --color-ring: #a3e635; /* lime-400 */
+  }
+  body[data-theme="sand"] {
+    --color-primary: #f59e0b; /* amber-500 */
+    --color-primary-hover: #d97706; /* amber-600 */
+    --color-primary-light: #fffbeb; /* amber-50 */
+    --color-primary-text: #92400e; /* amber-800 */
+    --color-ring: #fbbf24; /* amber-400 */
+  }
+  body[data-theme="cream"] {
+    --color-primary: #d1d5db; /* gray-300 */
+    --color-primary-hover: #9ca3af; /* gray-400 */
+    --color-primary-light: #f9fafb; /* gray-50 */
+    --color-primary-text: #374151; /* gray-700 */
+    --color-ring: #9ca3af; /* gray-400 */
+    --color-background: #fdfcfb;
+  }
+  /* Ensure smooth transitions */
+  body {
+    background-color: var(--color-background);
+    color: var(--color-text-main);
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+</style>
 </head>
-  <body class="bg-slate-50">
+  <body>
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

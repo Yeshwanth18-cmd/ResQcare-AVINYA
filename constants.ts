@@ -1,4 +1,4 @@
-import type { Assessment, Resource } from './types';
+import type { Assessment, Resource, ThemeName, ThemePalette } from './types';
 
 export const PHQ9_ASSESSMENT: Assessment = {
   id: 'phq-9',
@@ -34,6 +34,7 @@ export const GAD7_ASSESSMENT: Assessment = {
     sourceInfo: 'GAD-7 was developed by Drs. Robert L. Spitzer, Kurt Kroenke, Janet B.W. Williams, and colleagues. For research information, contact Dr. Kroenke at kkroenke@regenstrief.org.',
     questions: [
         { text: 'Feeling nervous, anxious, or on edge', options: [{ text: 'Not at all', value: 0 }, { text: 'Several days', value: 1 }, { text: 'More than half the days', value: 2 }, { text: 'Nearly every day', value: 3 }] },
+        // FIX: Corrected typo 'aue' to 'value'
         { text: 'Not being able to stop or control worrying', options: [{ text: 'Not at all', value: 0 }, { text: 'Several days', value: 1 }, { text: 'More than half the days', value: 2 }, { text: 'Nearly every day', value: 3 }] },
         { text: 'Worrying too much about different things', options: [{ text: 'Not at all', value: 0 }, { text: 'Several days', value: 1 }, { text: 'More than half the days', value: 2 }, { text: 'Nearly every day', value: 3 }] },
         { text: 'Trouble relaxing', options: [{ text: 'Not at all', value: 0 }, { text: 'Several days', value: 1 }, { text: 'More than half the days', value: 2 }, { text: 'Nearly every day', value: 3 }] },
@@ -49,11 +50,125 @@ export const GAD7_ASSESSMENT: Assessment = {
     ],
 };
 
-export const RESOURCES_DATA: Resource[] = [
-    { title: 'Understanding Blood Pressure', description: 'An article explaining the basics of blood pressure and its importance.', type: 'article', tags: ['health', 'education'], link: '#' },
-    { title: 'Healthy Eating Guide', description: 'A guide to balanced nutrition and healthy eating habits.', type: 'guide', tags: ['nutrition', 'health'], link: '#' },
-    { title: 'When to See a Doctor for a Fever', description: 'Learn when a fever is a sign of something more serious.', type: 'article', tags: ['symptoms', 'fever'], link: '#' },
-    { title: 'Stretching for Desk Workers', description: 'Simple stretches to relieve tension from sitting.', type: 'exercise', tags: ['fitness', 'office'], link: '#' },
-    { title: 'The Importance of Hydration', description: 'Discover why drinking enough water is crucial for your health.', type: 'guide', tags: ['health', 'hydration'], link: '#' },
-    { title: 'Recognizing Signs of a Stroke', description: 'Tips on how to identify stroke symptoms quickly using the F.A.S.T. method.', type: 'article', tags: ['emergency', 'stroke'], link: '#' }
+export const MENTAL_HEALTH_RESOURCES: Resource[] = [
+  {
+    id: 'who-stress-guide-1',
+    title: 'Doing What Matters in Times of Stress',
+    description: 'An illustrated guide on practical skills to cope with stress. A WHO guide covering grounding, unhooking from unhelpful thoughts, and acting on your values.',
+    contentType: 'Guide',
+    category: 'Stress',
+    tags: ['stress', 'coping-strategies', 'mindfulness', 'self-help'],
+    link: '#',
+    source: 'WHO',
+    audience: 'General',
+    difficulty: 'Beginner',
+    timeToComplete: 20,
+  },
+  {
+    id: 'nimh-anxiety-brochure-2',
+    title: 'Anxiety Disorders',
+    description: 'A detailed brochure from the National Institute of Mental Health (NIMH) explaining different anxiety disorders, symptoms, and treatment options.',
+    contentType: 'Article',
+    category: 'Anxiety',
+    tags: ['anxiety', 'education', 'treatment', 'symptoms'],
+    link: '#',
+    source: 'NIMH',
+    audience: 'General',
+    difficulty: 'Intermediate',
+    timeToComplete: 15,
+  },
+  {
+    id: 'samhsa-depression-guide-3',
+    title: 'Coping with Depression',
+    description: 'This guide from SAMHSA provides information about depression and offers strategies for coping, including seeking help and building a support network.',
+    contentType: 'Guide',
+    category: 'Depression',
+    tags: ['depression', 'coping-strategies', 'support', 'self-help'],
+    link: '#',
+    source: 'SAMHSA',
+    audience: 'Adults',
+    difficulty: 'Beginner',
+    timeToComplete: 10,
+  },
+  {
+    id: 'nih-sleep-hygiene-4',
+    title: 'Healthy Sleep Habits',
+    description: 'From the National Institutes of Health (NIH), this article provides evidence-based tips for improving your sleep hygiene for better mental and physical health.',
+    contentType: 'Article',
+    category: 'Sleep',
+    tags: ['sleep', 'health', 'self-care', 'habits'],
+    link: '#',
+    source: 'NIH',
+    audience: 'General',
+    difficulty: 'Beginner',
+    timeToComplete: 5,
+  },
+  {
+    id: 'who-mindfulness-audio-5',
+    title: 'Mindful Breathing Exercise',
+    description: 'A 5-minute guided audio exercise from the WHO to help you ground yourself in the present moment and calm an anxious mind.',
+    contentType: 'Audio',
+    category: 'Mindfulness',
+    tags: ['mindfulness', 'stress', 'anxiety', 'exercise', 'audio'],
+    link: '#',
+    source: 'WHO',
+    audience: 'General',
+    difficulty: 'Beginner',
+    timeToComplete: 5,
+  },
+  {
+    id: 'nimh-youth-mental-health-6',
+    title: 'Mental Health Resources for Adolescents and Young Adults',
+    description: 'NIMH offers this resource page specifically for young people, covering various topics and how to get help.',
+    contentType: 'Guide',
+    category: 'Self-Care',
+    tags: ['youth', 'education', 'support', 'help'],
+    link: '#',
+    source: 'NIMH',
+    audience: 'Youth',
+    difficulty: 'Intermediate',
+    timeToComplete: 10,
+  },
+  {
+    id: 'samhsa-crisis-hotline-7',
+    title: '988 Suicide & Crisis Lifeline',
+    description: 'Information on the 988 Lifeline, a national network of local crisis centers that provides free and confidential emotional support to people in suicidal crisis or emotional distress 24/7.',
+    contentType: 'Guide',
+    category: 'Crisis Support',
+    tags: ['crisis', 'suicide-prevention', 'emergency', 'support'],
+    link: '#',
+    source: 'SAMHSA',
+    audience: 'General',
+    difficulty: 'Beginner',
+    timeToComplete: 2,
+  },
+  {
+    id: 'nih-self-care-8',
+    title: 'Caring for Your Mental Health',
+    description: 'This NIH article provides practical tips for self-care, including physical activity, healthy eating, and connecting with others.',
+    contentType: 'Article',
+    category: 'Self-Care',
+    tags: ['self-care', 'health', 'positivity', 'coping-strategies'],
+    link: '#',
+    source: 'NIH',
+    audience: 'General',
+    difficulty: 'Beginner',
+    timeToComplete: 5,
+  },
 ];
+
+export const RESOURCE_CATEGORIES = Array.from(new Set(MENTAL_HEALTH_RESOURCES.map(r => r.category)));
+export const RESOURCE_AUDIENCES = Array.from(new Set(MENTAL_HEALTH_RESOURCES.map(r => r.audience)));
+export const RESOURCE_DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
+
+
+export const THEMES: Record<ThemeName, { name: string; palette: ThemePalette }> = {
+  sky: { name: 'Sky', palette: { '--color-primary': '#3b82f6', '--color-primary-hover': '#2563eb', '--color-primary-light': '#eff6ff', '--color-primary-text': '#1e40af', '--color-ring': '#60a5fa' } },
+  coral: { name: 'Coral', palette: { '--color-primary': '#ef4444', '--color-primary-hover': '#dc2626', '--color-primary-light': '#fef2f2', '--color-primary-text': '#991b1b', '--color-ring': '#f87171' } },
+  mint: { name: 'Mint', palette: { '--color-primary': '#10b981', '--color-primary-hover': '#059669', '--color-primary-light': '#ecfdf5', '--color-primary-text': '#065f46', '--color-ring': '#34d399' } },
+  olive: { name: 'Olive', palette: { '--color-primary': '#84cc16', '--color-primary-hover': '#65a30d', '--color-primary-light': '#f7fee7', '--color-primary-text': '#3f6212', '--color-ring': '#a3e635' } },
+  sand: { name: 'Sand', palette: { '--color-primary': '#f59e0b', '--color-primary-hover': '#d97706', '--color-primary-light': '#fffbeb', '--color-primary-text': '#92400e', '--color-ring': '#fbbf24' } },
+  cream: { name: 'Cream', palette: { '--color-primary': '#d1d5db', '--color-primary-hover': '#9ca3af', '--color-primary-light': '#f9fafb', '--color-primary-text': '#374151', '--color-ring': '#9ca3af', '--color-background': '#fdfcfb' } },
+};
+
+export const MOOD_EMOJIS = ['😞', '😕', '😐', '🙂', '😄', '😊', '😁', '🤩', '🚀', '🔥'];

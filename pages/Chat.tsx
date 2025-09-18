@@ -1,7 +1,13 @@
 import React, { useState, useRef, useEffect } from 'react';
-import { getChatResponse } from '../services/geminiService';
+import { getChatResponse, analyzeChatMessageForSafety } from '../services/geminiService';
+import { useScheduledReminders } from '../hooks/useScheduledReminders';
 import type { ChatMessage } from '../types';
-import { IconPaperAirplane } from '../components/Icons';
+// FIX: Added IconShieldCheck to the import to resolve 'Cannot find name' errors.
+import { IconPaperAirplane, IconCheckCircle, IconAlertTriangle, IconShieldCheck } from '../components/Icons';
+import Toast from '../components/Toast';
+import ChatResourceCard from '../components/ChatResourceCard';
+
+const CRISIS_RESPONSE_TEXT = "It sounds like you are going through a very difficult time. Your safety is the most important thing. This is a critical situation, and I strongly urge you to seek immediate help using the Emergency button or by contacting a crisis hotline. I am an AI and not equipped to handle this, but there are people who can support you right now.";
 
 const Chat: React.FC = () => {
   const [messages, setMessages] = useState<ChatMessage[]>(() => {
@@ -16,11 +22,13 @@ const Chat: React.FC = () => {
     } catch (error) {
       console.error("Failed to load chat history from localStorage:", error);
     }
-    return [{ sender: 'bot', text: "Hello! I'm ResQcare. You can ask me general health questions. Please note I am not a doctor and cannot provide a diagnosis." }];
+    return [{ sender: 'bot', text: "Hello! I'm ResQcare, your supportive AI assistant. How can I help you today? You can ask me about stress, mindfulness, or other wellness topics." }];
   });
 
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [toastMessage, setToastMessage] = useState<string | null>(null);
+  const { addReminder } = useScheduledReminders();
   const chatEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -29,8 +37,8 @@ const Chat: React.FC = () => {
 
   useEffect(() => {
     try {
-        // Filter out any potential error messages before saving
-        const historyToSave = messages.filter(msg => !(msg as any).isError);
+        // Don't save crisis messages in history
+        const historyToSave = messages.filter(msg => !msg.isCrisis && !msg.isError);
         localStorage.setItem('chatHistory', JSON.stringify(historyToSave));
     } catch (error) {
         console.error("Failed to save chat history to localStorage:", error);
@@ -42,17 +50,51 @@ const Chat: React.FC = () => {
 
     const userMessage: ChatMessage = { sender: 'user', text: input };
     setMessages(prev => [...prev, userMessage]);
+    const userInput = input;
     setInput('');
     setIsLoading(true);
 
     try {
-      // Pass the history *before* the new user message
-      const botResponse = await getChatResponse(messages, input);
-      setMessages(prev => [...prev, { sender: 'bot', text: botResponse }]);
+      const safetyResult = await analyzeChatMessageForSafety(userInput);
+
+      if (safetyResult.isCrisis) {
+        setMessages(prev => [...prev, { sender: 'bot', text: CRISIS_RESPONSE_TEXT, isCrisis: true }]);
+        setIsLoading(false);
+        return;
+      }
+      
+      const nonCrisisHistory = messages.filter(m => !m.isCrisis);
+      const { response: firstResponse, recommendedResources: firstResources } = await getChatResponse(nonCrisisHistory, userInput);
+      let functionCall = firstResponse.candidates?.[0]?.content?.parts?.[0]?.functionCall;
+      
+      if (functionCall?.name === 'scheduleReminder') {
+        const { type, timeISO } = functionCall.args;
+        addReminder(String(type), String(timeISO));
+        setToastMessage("Reminder scheduled successfully!");
+
+        const functionResponse = { functionResponse: { name: "scheduleReminder", response: { success: true, type, time: timeISO } } };
+        
+        const { response: secondResponse } = await getChatResponse(nonCrisisHistory, '', [functionResponse]);
+        const botResponseText = secondResponse.text + "\n\n---\n*I'm an AI assistant, not a doctor. For professional advice, please consult a healthcare provider.*";
+        setMessages(prev => [...prev, { sender: 'bot', text: botResponseText }]);
+
+      } else if (functionCall?.name === 'recommendResource') {
+        const { tags } = functionCall.args;
+        const functionResponse = { functionResponse: { name: "recommendResource", response: { tags } } };
+        
+        const { response: secondResponse, recommendedResources } = await getChatResponse(nonCrisisHistory, '', [functionResponse]);
+        const botResponseText = secondResponse.text + "\n\n---\n*I'm an AI assistant, not a doctor. For professional advice, please consult a healthcare provider.*";
+        setMessages(prev => [...prev, { sender: 'bot', text: botResponseText, resources: recommendedResources }]);
+
+      } else {
+        const botResponseText = firstResponse.text + "\n\n---\n*I'm an AI assistant, not a doctor. For professional advice, please consult a healthcare provider.*";
+        setMessages(prev => [...prev, { sender: 'bot', text: botResponseText, resources: firstResources.length > 0 ? firstResources : undefined }]);
+      }
+
     } catch (error) {
         console.error("Failed to get chat response:", error);
         const errorMessage = error instanceof Error ? error.message : "An unknown error occurred. Please try again.";
-        setMessages(prev => [...prev, { sender: 'bot', text: errorMessage, isError: true } as ChatMessage]);
+        setMessages(prev => [...prev, { sender: 'bot', text: errorMessage, isError: true }]);
     } finally {
       setIsLoading(false);
     }
@@ -66,25 +108,39 @@ const Chat: React.FC = () => {
       <div className="flex-1 p-6 overflow-y-auto">
         <div className="space-y-6">
           {messages.map((msg, index) => {
-            const isError = (msg as any).isError;
             return (
                 <div key={index} className={`flex items-end gap-3 ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-                {msg.sender === 'bot' && <div className={`w-8 h-8 rounded-full ${isError ? 'bg-red-500' : 'bg-blue-500'} flex-shrink-0`}></div>}
+                {msg.sender === 'bot' && (
+                    <div className={`w-8 h-8 rounded-full flex-shrink-0 flex items-center justify-center text-white ${msg.isCrisis ? 'bg-red-500' : 'bg-blue-500'}`}>
+                        {msg.isCrisis ? <IconAlertTriangle className="w-5 h-5" /> : <IconShieldCheck className="w-5 h-5" />}
+                    </div>
+                )}
                 <div className={`max-w-md p-4 rounded-2xl ${
                     msg.sender === 'user' 
                     ? 'bg-indigo-500 text-white rounded-br-none' 
-                    : isError
+                    : msg.isError
                     ? 'bg-red-100 text-red-800 rounded-bl-none'
+                    : msg.isCrisis
+                    ? 'bg-red-100 text-red-900 border border-red-200 rounded-bl-none'
                     : 'bg-slate-100 text-slate-800 rounded-bl-none'
                 }`}>
                     <p className="text-sm" style={{ whiteSpace: 'pre-wrap' }}>{msg.text}</p>
+                    {msg.resources && msg.resources.length > 0 && (
+                      <div className="mt-4 space-y-2 border-t border-slate-200 pt-3">
+                          {msg.resources.map(resource => (
+                              <ChatResourceCard key={resource.id} resource={resource} />
+                          ))}
+                      </div>
+                    )}
                 </div>
                 </div>
             );
           })}
           {isLoading && (
             <div className="flex items-end gap-3 justify-start">
-              <div className="w-8 h-8 rounded-full bg-blue-500 flex-shrink-0"></div>
+              <div className="w-8 h-8 rounded-full bg-blue-500 flex-shrink-0 flex items-center justify-center">
+                <IconShieldCheck className="w-5 h-5 text-white"/>
+              </div>
               <div className="max-w-md p-4 rounded-2xl bg-slate-100">
                 <div className="flex items-center justify-center space-x-1">
                   <div className="w-2 h-2 bg-slate-400 rounded-full animate-pulse [animation-delay:-0.3s]"></div>
@@ -117,6 +173,12 @@ const Chat: React.FC = () => {
           </button>
         </div>
       </div>
+       <Toast
+        message={toastMessage || ''}
+        show={!!toastMessage}
+        onClose={() => setToastMessage(null)}
+        icon={<IconCheckCircle className="w-6 h-6 text-green-500" />}
+      />
     </div>
   );
 };

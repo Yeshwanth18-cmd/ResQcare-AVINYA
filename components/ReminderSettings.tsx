@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useMemo } from 'react';
-import { IconBell, IconCheckCircle } from './Icons';
+import { useScheduledReminders } from '../hooks/useScheduledReminders';
+import { IconBell, IconCheckCircle, IconX } from './Icons';
 import Toast from './Toast';
 
 type ReminderFrequency = 'daily' | '3days' | 'weekly';
@@ -37,6 +38,7 @@ const ReminderSettings: React.FC = () => {
     frequency: 'daily',
   });
   const [showToast, setShowToast] = useState(false);
+  const { reminders, deleteReminder } = useScheduledReminders();
 
   useEffect(() => {
     try {
@@ -54,8 +56,6 @@ const ReminderSettings: React.FC = () => {
     
     const nextDate = calculateNextReminderDate(config.frequency);
     
-    // Use the browser's Intl API for robust, locale-aware date formatting.
-    // 'undefined' tells the API to use the user's current locale automatically.
     const options: Intl.DateTimeFormatOptions = {
       weekday: 'long',
       year: 'numeric',
@@ -84,6 +84,17 @@ const ReminderSettings: React.FC = () => {
     const newConfig = { ...config, frequency: e.target.value as ReminderFrequency };
     handleSave(newConfig);
   };
+  
+  const formatReminderTime = (isoTime: string) => {
+      try {
+          return new Date(isoTime).toLocaleString(undefined, {
+             dateStyle: 'medium',
+             timeStyle: 'short'
+          });
+      } catch {
+          return "Invalid Date";
+      }
+  }
 
   return (
     <div>
@@ -91,14 +102,40 @@ const ReminderSettings: React.FC = () => {
         <IconBell className="w-8 h-8 text-blue-500" />
         <h2 className="text-2xl font-bold text-slate-900">Reminder Settings</h2>
       </div>
-      <p className="mt-1 text-slate-600">
-        Opt-in to receive gentle reminders for journaling or meditation.
-      </p>
+      
+      <div className="mt-6 space-y-4">
+        <div>
+            <h3 className="text-lg font-semibold text-slate-800">Scheduled Reminders</h3>
+            <p className="mt-1 text-slate-600">These are specific reminders you've set, often via the AI chat.</p>
+            <div className="mt-4 space-y-3">
+                {reminders.length > 0 ? (
+                    reminders.map(reminder => (
+                        <div key={reminder.id} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg border border-slate-200">
+                           <div>
+                                <p className="font-semibold text-slate-800 capitalize">{reminder.type}</p>
+                                <p className="text-sm text-slate-600">{formatReminderTime(reminder.time)}</p>
+                           </div>
+                           <button onClick={() => deleteReminder(reminder.id)} className="p-2 text-slate-500 hover:text-red-600 hover:bg-red-100 rounded-full transition-colors" aria-label={`Delete reminder for ${reminder.type}`}>
+                                <IconX className="w-5 h-5" />
+                           </button>
+                        </div>
+                    ))
+                ) : (
+                    <p className="text-sm text-slate-500 p-3 bg-slate-50 rounded-lg text-center">No reminders scheduled. Try asking the chat: "Remind me to journal tomorrow."</p>
+                )}
+            </div>
+        </div>
 
-      <div className="mt-6 space-y-6">
+        <div>
+            <h3 className="text-lg font-semibold text-slate-800 mt-6">General Reminders</h3>
+            <p className="mt-1 text-slate-600">
+              Opt-in to receive gentle, recurring reminders for journaling or meditation.
+            </p>
+        </div>
+
         <div className="flex items-center justify-between p-4 border border-slate-200 rounded-lg">
           <label htmlFor="reminder-toggle" className="font-semibold text-slate-800">
-            Enable Journaling & Meditation Reminders
+            Enable General Reminders
           </label>
           <label className="relative inline-flex items-center cursor-pointer">
             <input 
