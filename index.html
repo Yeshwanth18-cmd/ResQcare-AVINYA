@@ -9,6 +9,39 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Open+Sans:wght@400;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Open Sans', '-apple-system', 'BlinkMacSystemFont', '"Segoe UI"', 'Roboto', '"Helvetica Neue"', 'Arial', 'sans-serif'],
+            },
+            colors: {
+              primary: 'var(--color-primary)',
+              'primary-hover': 'var(--color-primary-hover)',
+              'primary-light': 'var(--color-primary-light)',
+              'primary-text': 'var(--color-primary-text)',
+              background: 'var(--color-background)',
+              surface: 'var(--color-surface)',
+              'text-main': 'var(--color-text-main)',
+              'text-muted': 'var(--color-text-muted)',
+              border: 'var(--color-border)',
+              ring: 'var(--color-ring)',
+              success: 'var(--color-success)',
+              'success-light': 'var(--color-success-light)',
+              'success-text': 'var(--color-success-text)',
+              warning: 'var(--color-warning)',
+              'warning-light': 'var(--color-warning-light)',
+              'warning-text': 'var(--color-warning-text)',
+              error: 'var(--color-error)',
+              'error-hover': 'var(--color-error-hover)',
+              'error-light': 'var(--color-error-light)',
+              'error-text': 'var(--color-error-text)',
+            }
+          }
+        }
+      }
+    </script>
   <script type="importmap">
 {
   "imports": {
@@ -128,29 +161,8 @@
     }
   }
 
-  /* Themed Utility Classes */
-  .themed-alert-success { background-color: var(--color-success-light); border-left-width: 4px; border-color: var(--color-success); color: var(--color-success-text); }
-  .themed-alert-warning { background-color: var(--color-warning-light); border-left-width: 4px; border-color: var(--color-warning); color: var(--color-warning-text); }
-  .themed-alert-error { background-color: var(--color-error-light); border-left-width: 4px; border-color: var(--color-error); color: var(--color-error-text); }
-  .themed-text-success { color: var(--color-success); }
-  .themed-text-error { color: var(--color-error); }
-  .themed-bg-error { background-color: var(--color-error); }
-  .themed-bg-error-hover:hover { background-color: var(--color-error-hover); }
-  .themed-border-error { border-color: var(--color-error); }
-  .themed-ring-error:focus { --tw-ring-color: var(--color-error) }
-
-  /* New Theme-Aware Utility Classes */
-  .bg-primary { background-color: var(--color-primary); }
-  .bg-primary-hover:hover { background-color: var(--color-primary-hover); }
-  .bg-primary-light { background-color: var(--color-primary-light); }
-  .text-primary { color: var(--color-primary); }
-  .text-primary-text { color: var(--color-primary-text); }
-  .border-primary { border-color: var(--color-primary); }
-  .ring-primary { --tw-ring-color: var(--color-ring); }
-  .focus\:ring-primary:focus { --tw-ring-color: var(--color-ring) !important; box-shadow: var(--tw-ring-inset) 0 0 0 calc(2px + var(--tw-ring-offset-width)) var(--tw-ring-color); }
-
   /* Smooth Transitions & Card Styling */
-  .bg-white.shadow-md, button, a, [role="button"] {
+  button, a, [role="button"] {
     transition: color 250ms ease-in-out, background-color 250ms ease-in-out, border-color 250ms ease-in-out, transform 250ms ease-in-out, box-shadow 250ms ease-in-out;
   }
 

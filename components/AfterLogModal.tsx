@@ -98,7 +98,7 @@ const AfterLogModal: React.FC<AfterLogModalProps> = ({ isOpen, onClose, moodLog 
 
         <div className="mt-8 space-y-6">
           {recommendations.isCrisis && (
-            <div className="p-4 themed-alert-warning rounded-r-lg flex items-start gap-3">
+            <div className="p-4 bg-warning-light border-l-4 border-warning text-warning-text rounded-r-lg flex items-start gap-3">
               <IconAlertTriangle className="w-8 h-8 flex-shrink-0" />
               <div>
                 <p className="font-bold">Feeling Overwhelmed?</p>
@@ -126,7 +126,7 @@ const AfterLogModal: React.FC<AfterLogModalProps> = ({ isOpen, onClose, moodLog 
               <IconChartBar className="w-5 h-5"/>
               View Mood History
             </Link>
-             <button onClick={onClose} className="w-full bg-primary bg-primary-hover text-white font-bold py-3 px-4 rounded-lg transition">
+             <button onClick={onClose} className="w-full bg-primary hover:bg-primary-hover text-white font-bold py-3 px-4 rounded-lg transition">
                 Done
             </button>
         </div>

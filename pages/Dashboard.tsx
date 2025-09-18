@@ -37,9 +37,9 @@ const Dashboard: React.FC<DashboardProps> = ({ quickActions }) => {
   return (
     <div className="max-w-7xl mx-auto space-y-12">
       {showBanner && (
-        <div className="themed-alert-success p-4 rounded-r-lg flex justify-between items-center animate-fade-in">
-          <p><strong>{t("You're all set!")}</strong> {t('Your dashboard is now tailored for you.')}</p>
-          <button onClick={() => setShowBanner(false)} className="text-current hover:opacity-75" aria-label="Dismiss">
+        <div className="bg-success-light p-4 rounded-r-lg flex justify-between items-center animate-fade-in">
+          <p className="text-success-text"><strong>{t("You're all set!")}</strong> {t('Your dashboard is now tailored for you.')}</p>
+          <button onClick={() => setShowBanner(false)} className="text-success-text hover:opacity-75" aria-label="Dismiss">
             <IconX className="w-5 h-5" />
           </button>
         </div>

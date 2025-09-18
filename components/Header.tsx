@@ -21,7 +21,7 @@ const LanguageSelector: React.FC = () => {
             <select
                 value={language}
                 onChange={handleChange}
-                className="bg-white border border-slate-300 rounded-md py-1 pl-2 pr-8 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 ring-primary"
+                className="bg-white border border-slate-300 rounded-md py-1 pl-2 pr-8 text-sm font-medium text-slate-700 hover:bg-slate-50 focus:outline-none focus:ring-2 focus:ring-ring"
                 aria-label="Select a language"
             >
                 {Object.entries(supportedLanguages).map(([code, name]) => (
@@ -72,7 +72,7 @@ const Header: React.FC<HeaderProps> = ({ onCrisisClick, onShowTour }) => {
             </button>
             <button
               onClick={onCrisisClick}
-              className="flex items-center gap-2 themed-bg-error themed-bg-error-hover text-white font-bold py-2 px-4 rounded-full transition-transform duration-200 ease-in-out hover:scale-105"
+              className="flex items-center gap-2 bg-error hover:bg-error-hover text-white font-bold py-2 px-4 rounded-full transition-transform duration-200 ease-in-out hover:scale-105"
             >
               <IconHeartbeat className="h-5 w-5" />
               <span>{t('Emergency')}</span>

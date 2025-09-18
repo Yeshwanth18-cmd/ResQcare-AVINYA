@@ -122,7 +122,7 @@ const MapHospitalCard: React.FC<MapHospitalCardProps> = ({ hospital, onClose, on
         </div>
         <div className="mt-3 flex justify-end gap-2">
             <a href={hospital.directions_url} target="_blank" rel="noopener noreferrer" className="text-sm bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold py-2 px-4 rounded-full transition-colors">{t('Directions')}</a>
-            <button onClick={() => onBookNow(hospital)} className="text-sm bg-primary bg-primary-hover text-white font-bold py-2 px-4 rounded-full transition-colors">{t('Book Now')}</button>
+            <button onClick={() => onBookNow(hospital)} className="text-sm bg-primary hover:bg-primary-hover text-white font-bold py-2 px-4 rounded-full transition-colors">{t('Book Now')}</button>
         </div>
     </div>
 )};
@@ -224,7 +224,7 @@ const SymptomChecker: React.FC = () => {
       </div>
       <p className="mt-1 text-slate-600">{t('Describe your symptoms to get AI-powered, location-aware recommendations.')}</p>
       
-      <div className="mt-4 p-4 themed-alert-warning rounded-r-lg flex items-start gap-3">
+      <div className="mt-4 p-4 bg-warning-light border-l-4 border-warning text-warning-text rounded-r-lg flex items-start gap-3">
         <IconAlertTriangle className="w-8 h-8 flex-shrink-0" />
         <div>
           <p className="font-bold">{t('Disclaimer')}</p>
@@ -240,7 +240,7 @@ const SymptomChecker: React.FC = () => {
                 value={symptoms}
                 onChange={(e) => setSymptoms(e.target.value)}
                 placeholder={t("For example: 'I have a high fever, a persistent cough, and difficulty breathing.'")}
-                className="w-full h-32 p-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary"
+                className="w-full h-32 p-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-ring"
             />
         </div>
       </div>
@@ -249,14 +249,14 @@ const SymptomChecker: React.FC = () => {
         <button
           onClick={handleSubmit}
           disabled={symptoms.trim() === '' || isLoading || locationStatus === 'loading'}
-          className="bg-primary text-white font-bold py-3 px-8 rounded-full bg-primary-hover disabled:bg-slate-400 transition-all duration-200"
+          className="bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-hover disabled:bg-slate-400 transition-all duration-200"
         >
           {getButtonText()}
         </button>
       </div>
       
       {(locationError || error) && (
-         <div className="mt-6 p-4 themed-alert-error rounded-r-lg flex items-start gap-3 animate-fade-in">
+         <div className="mt-6 p-4 bg-error-light border-l-4 border-error text-error-text rounded-r-lg flex items-start gap-3 animate-fade-in">
             <IconAlertTriangle className="w-6 h-6 flex-shrink-0" />
             <div>
                 <p className="font-bold">{t('Analysis Failed')}</p>

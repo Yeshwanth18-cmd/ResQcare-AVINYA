@@ -35,7 +35,7 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ assessment }) => {
         <h1 className="text-3xl font-bold text-slate-900">{assessment.title}</h1>
         <p className="mt-2 text-slate-600">{assessment.description}</p>
         
-        <div className="mt-6 p-4 themed-alert-warning rounded-r-lg">
+        <div className="mt-6 p-4 bg-warning-light border-l-4 border-warning text-warning-text rounded-r-lg">
             <p className="font-bold">Important Disclaimer</p>
             <p className="text-sm">{assessment.disclaimer}</p>
         </div>
@@ -53,7 +53,7 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ assessment }) => {
                       value={option.value}
                       checked={answers[index] === option.value}
                       onChange={() => handleAnswerChange(index, option.value)}
-                      className="w-4 h-4 text-primary bg-slate-200 border-slate-300 focus:ring-primary"
+                      className="w-4 h-4 text-primary bg-slate-200 border-slate-300 focus:ring-ring"
                     />
                     <span className="ml-3 text-sm font-medium text-slate-700">{option.text}</span>
                   </label>
@@ -67,7 +67,7 @@ const AssessmentForm: React.FC<AssessmentFormProps> = ({ assessment }) => {
             <button
                 onClick={calculateScore}
                 disabled={!allQuestionsAnswered}
-                className="bg-primary text-white font-bold py-3 px-8 rounded-full bg-primary-hover disabled:bg-slate-400 disabled:cursor-not-allowed transition-all duration-200 ease-in-out transform hover:scale-105 disabled:scale-100"
+                className="bg-primary text-white font-bold py-3 px-8 rounded-full hover:bg-primary-hover disabled:bg-slate-400 disabled:cursor-not-allowed transition-all duration-200 ease-in-out transform hover:scale-105 disabled:scale-100"
             >
                 Calculate Score
             </button>
