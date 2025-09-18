@@ -1,5 +1,5 @@
 import { GoogleGenAI, Type, Part, GenerateContentResponse, Content } from "@google/genai";
-import type { ChatMessage, TriageResult, SafetyAnalysisResult, Resource } from '../types';
+import type { ChatMessage, SymptomAnalysisResult, SafetyAnalysisResult, Resource } from '../types';
 import { MENTAL_HEALTH_RESOURCES } from '../constants';
 
 const API_KEY = process.env.API_KEY;
@@ -52,83 +52,116 @@ export const analyzeChatMessageForSafety = async (message: string): Promise<Safe
 };
 
 
-const triageAnalysisPrompt = `
-You are a symptom checker and triage assistant for a healthcare app.
-You do not diagnose or give medical advice—only assess urgency and recommend next steps.
-Analyze the user’s symptoms and respond in this exact JSON structure:
+const getHospitalDiscoveryPrompt = (symptoms: string, location: { lat: number; lon: number; }) => `
+You are a professional medical app's backend AI, specializing in real-time, location-powered hospital discovery.
+Your task is to process user symptoms and their live GPS coordinates to suggest nearby, highly-rated hospitals.
+
+**Rules:**
+1.  **Live Location Only**: The provided location (lat: ${location.lat}, lon: ${location.lon}) is real-time. Use it for this query only.
+2.  **Dynamic Radius Logic**: Your goal is to find 3-5 relevant hospitals.
+    - Start with a small search radius (e.g., 2km).
+    - If you find fewer than 3 hospitals with a rating of 3.5 or higher, expand your search radius incrementally (e.g., to 3km, then 4km, up to a max of 20km) until you find at least 3 hospitals.
+    - The final \`radius_km\` in your response should be the radius you settled on.
+3.  **Quality First**: Only consider hospitals with a rating of 3.5 or higher.
+4.  **Order Results**: Order the filtered hospitals by rating (highest first), then by distance (closest first).
+5.  **Fallback Logic**:
+    - If your dynamic search finds hospitals, return up to 5 of them. Set \`action.show_nearest\` to \`false\` and \`action.out_of_range\` to \`false\`. Message: "Here are the top-rated hospitals near you. Tap to view details or book an appointment."
+    - If, after expanding your search to the maximum reasonable radius, you still find NO hospitals, find the SINGLE NEAREST hospital with a rating of 3.5+, regardless of its distance. Set \`action.show_nearest\` to \`true\` and \`action.out_of_range\` to \`true\`. Message: "There are no highly rated hospitals within a reasonable distance from your location. Here’s the nearest recommended hospital—tap to view or book."
+6.  **Data Generation**:
+    - For each hospital, provide: a realistic name, its exact \`lat\` and \`lon\`, \`distance_km\` from the user, \`rating\` (3.5-5.0), relevant services, \`booking_url\` ('/calendar'), and a \`map_link\` using 'https://maps.google.com/?q={hospital.lat},{hospital.lon}'.
+
+**JSON Output Structure:**
+Your response MUST be a single, valid JSON object matching this exact structure. Do not add any extra text or explanations.
 
 {
-  "urgency": "low" | "medium" | "high" | "urgent",
-  "advice": "string",
-  "appointment_suggestion": "string" | null,
-  "appointment_action": {
-    "show": boolean,
-    "label": "string" | null,
-    "url": "string" | null
-  },
-  "emergency": boolean,
-  "emergency_contacts": [string] | null,
-  "resources": [string] | null
+  "location": { "lat": ${location.lat}, "lon": ${location.lon}, "accuracy_m": 50, "source": "gps" },
+  "radius_km": number,
+  "hospitals": [ { "name": "string", "lat": number, "lon": number, "distance_km": number, "rating": number, "services": ["string"], "booking_url": "string", "map_link": "string" } ],
+  "action": { "show_nearest": boolean, "out_of_range": boolean },
+  "message": "string",
+  "ui": { "theme": "medical_clean", "primary": "#2a8bf2", "secondary": "#e6f7ff", "text": "#111111", "background": "#ffffff" }
 }
 
-Rules:
-- If urgency is high or urgent, set appointment_suggestion to a clear recommendation to book an appointment, and set appointment_action.show to true with a label (“Book Appointment Now”) and URL to your booking flow (e.g., /calendar).
-- If urgency is low or medium, set appointment_action.show to false and provide self-care advice.
-- If symptoms suggest a crisis or life-threatening condition, set emergency:true and provide emergency_contacts (e.g., ["911", "988"]).
-- Never diagnose. Only assess urgency and recommend action.
-- Keep advice clear, concise, and actionable.
+**User's Symptoms**: "${symptoms}"
 
-Analyze the following symptom description:
+Generate the JSON response now.
 `;
 
-export const getTriageAnalysis = async (symptoms: string): Promise<TriageResult | null> => {
+export const getTriageAnalysis = async (symptoms: string, location: { lat: number, lon: number }): Promise<SymptomAnalysisResult | null> => {
   if (!API_KEY) return null;
   try {
     const response = await ai.models.generateContent({
         model: "gemini-2.5-flash",
-        contents: `${triageAnalysisPrompt}"${symptoms}"`,
+        contents: getHospitalDiscoveryPrompt(symptoms, location),
         config: {
             responseMimeType: "application/json",
             responseSchema: {
                 type: Type.OBJECT,
                 properties: {
-                    urgency: { type: Type.STRING },
-                    advice: { type: Type.STRING },
-                    appointment_suggestion: { type: Type.STRING },
-                    appointment_action: {
+                    location: {
                         type: Type.OBJECT,
                         properties: {
-                            show: { type: Type.BOOLEAN },
-                            label: { type: Type.STRING },
-                            url: { type: Type.STRING }
+                            lat: { type: Type.NUMBER },
+                            lon: { type: Type.NUMBER },
+                            accuracy_m: { type: Type.NUMBER },
+                            source: { type: Type.STRING },
                         },
-                        required: ["show"]
+                        required: ["lat", "lon", "accuracy_m", "source"],
                     },
-                    emergency: { type: Type.BOOLEAN },
-                    emergency_contacts: {
+                    radius_km: { type: Type.NUMBER },
+                    hospitals: {
                         type: Type.ARRAY,
-                        items: { type: Type.STRING }
+                        items: {
+                            type: Type.OBJECT,
+                            properties: {
+                                name: { type: Type.STRING },
+                                lat: { type: Type.NUMBER },
+                                lon: { type: Type.NUMBER },
+                                distance_km: { type: Type.NUMBER },
+                                rating: { type: Type.NUMBER },
+                                services: { type: Type.ARRAY, items: { type: Type.STRING } },
+                                booking_url: { type: Type.STRING },
+                                map_link: { type: Type.STRING },
+                            },
+                            required: ["name", "lat", "lon", "distance_km", "rating", "services", "booking_url", "map_link"],
+                        }
                     },
-                    resources: {
-                        type: Type.ARRAY,
-                        items: { type: Type.STRING }
+                    message: { type: Type.STRING },
+                    action: {
+                        type: Type.OBJECT,
+                        properties: {
+                            show_nearest: { type: Type.BOOLEAN },
+                            out_of_range: { type: Type.BOOLEAN },
+                        },
+                        required: ["show_nearest", "out_of_range"],
+                    },
+                    ui: {
+                        type: Type.OBJECT,
+                        properties: {
+                            theme: { type: Type.STRING },
+                            primary: { type: Type.STRING },
+                            secondary: { type: Type.STRING },
+                            text: { type: Type.STRING },
+                            background: { type: Type.STRING },
+                        },
+                        required: ["theme", "primary", "secondary", "text", "background"],
                     }
                 },
-                required: ["urgency", "advice", "appointment_action", "emergency"]
+                required: ["location", "radius_km", "hospitals", "message", "action", "ui"]
             }
         }
     });
     
     const jsonString = response.text.trim();
     try {
-        return JSON.parse(jsonString) as TriageResult;
+        return JSON.parse(jsonString) as SymptomAnalysisResult;
     } catch (parseError) {
-        console.error("Error parsing triage JSON response:", parseError, "Raw response:", jsonString);
+        console.error("Error parsing discovery JSON response:", parseError, "Raw response:", jsonString);
         return null;
     }
 
   } catch (apiError) {
-    console.error("Error calling Gemini API for triage analysis:", apiError);
+    console.error("Error calling Gemini API for discovery analysis:", apiError);
     return null;
   }
 };

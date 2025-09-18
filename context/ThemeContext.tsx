@@ -11,13 +11,15 @@ interface ThemeContextType {
 const ThemeContext = createContext<ThemeContextType | undefined>(undefined);
 
 export const ThemeProvider: React.FC<{ children: ReactNode }> = ({ children }) => {
-  const [theme, setThemeState] = useState<ThemeName>('sky');
+  const [theme, setThemeState] = useState<ThemeName>('clinic');
 
   useEffect(() => {
     const savedTheme = localStorage.getItem(THEME_STORAGE_KEY) as ThemeName | null;
     if (savedTheme) {
       setThemeState(savedTheme);
       document.body.setAttribute('data-theme', savedTheme);
+    } else {
+      document.body.setAttribute('data-theme', 'clinic');
     }
   }, []);
 

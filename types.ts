@@ -44,7 +44,7 @@ export interface Resource {
 
 
 // For Theming
-export type ThemeName = 'sky' | 'coral' | 'mint' | 'olive' | 'sand' | 'cream';
+export type ThemeName = 'sky' | 'coral' | 'mint' | 'olive' | 'sand' | 'cream' | 'clinic';
 export type ThemePalette = Record<string, string>;
 
 // For Chat
@@ -56,19 +56,40 @@ export interface ChatMessage {
   resources?: Resource[];
 }
 
+// For Hospital Recommendations
+export interface Hospital {
+  name: string;
+  lat: number;
+  lon: number;
+  distance_km: number;
+  rating: number;
+  services: string[];
+  booking_url: string;
+  map_link: string;
+}
+
 // For Symptom Checker
-export interface TriageResult {
-  urgency: 'low' | 'medium' | 'high' | 'urgent';
-  advice: string;
-  appointment_suggestion: string | null;
-  appointment_action: {
-    show: boolean;
-    label: string | null;
-    url: string | null;
+export interface SymptomAnalysisResult {
+  location: {
+    lat: number;
+    lon: number;
+    accuracy_m: number;
+    source: string;
   };
-  emergency: boolean;
-  emergency_contacts: string[] | null;
-  resources: string[] | null;
+  radius_km: number;
+  hospitals: Hospital[];
+  message: string;
+  action: {
+    show_nearest: boolean;
+    out_of_range: boolean;
+  };
+  ui: {
+    theme: string;
+    primary: string;
+    secondary: string;
+    text: string;
+    background: string;
+  };
 }
 
 // For Mood Logging

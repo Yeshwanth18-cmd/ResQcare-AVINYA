@@ -1,144 +1,145 @@
 import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
 import { getTriageAnalysis } from '../services/geminiService';
-import type { TriageResult } from '../types';
-import { IconAlertTriangle, IconStethoscope, IconAppointments } from '../components/Icons';
+import type { SymptomAnalysisResult } from '../types';
+import { IconAlertTriangle, IconStethoscope } from '../components/Icons';
+import HospitalCard from '../components/HospitalCard';
 
 const SymptomChecker: React.FC = () => {
   const [symptoms, setSymptoms] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [result, setResult] = useState<TriageResult | null>(null);
+  const [result, setResult] = useState<SymptomAnalysisResult | null>(null);
   const [error, setError] = useState<string | null>(null);
+  
+  const [locationStatus, setLocationStatus] = useState<'idle' | 'loading' | 'error'>('idle');
+  const [locationError, setLocationError] = useState<string | null>(null);
 
   const handleSubmit = async () => {
-    if (symptoms.trim() === '') return;
+    if (symptoms.trim() === '' || isLoading || locationStatus === 'loading') return;
+
+    // Reset previous results
     setIsLoading(true);
     setResult(null);
     setError(null);
+    setLocationError(null);
+    setLocationStatus('loading');
 
-    const analysisResult = await getTriageAnalysis(symptoms);
-    
-    if (analysisResult) {
-      setResult(analysisResult);
-    } else {
-      setError("An error occurred while analyzing symptoms. This could be a connection issue or an invalid response from the server. Please try again.");
-    }
-    
-    setIsLoading(false);
-  };
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        const locationData = { lat: latitude, lon: longitude };
+        
+        setLocationStatus('idle');
 
-  const getUrgencyStyles = (urgency: TriageResult['urgency']) => {
-    switch (urgency) {
-      case 'urgent': return 'bg-red-100 border-red-500 text-red-800';
-      case 'high': return 'bg-orange-100 border-orange-500 text-orange-800';
-      case 'medium': return 'bg-blue-100 border-blue-500 text-blue-800';
-      case 'low': return 'bg-green-100 border-green-500 text-green-800';
-      default: return 'bg-slate-100 border-slate-500 text-slate-800';
-    }
+        // Location successful, now call AI
+        getTriageAnalysis(symptoms, locationData)
+          .then(analysisResult => {
+            if (analysisResult) {
+              setResult(analysisResult);
+            } else {
+              setError("An error occurred while analyzing symptoms. This could be a connection issue or an invalid response from the server. Please try again.");
+            }
+          })
+          .catch(err => {
+             console.error(err);
+             setError("A critical error occurred while fetching the AI analysis.");
+          })
+          .finally(() => {
+            setIsLoading(false);
+          });
+      },
+      (error) => {
+        setLocationStatus('error');
+        switch(error.code) {
+          case error.PERMISSION_DENIED:
+            setLocationError("Location access was denied. Please enable location services in your browser settings to find nearby hospitals.");
+            break;
+          case error.POSITION_UNAVAILABLE:
+            setLocationError("Location information is unavailable. Please check your connection or GPS signal.");
+            break;
+          case error.TIMEOUT:
+            setLocationError("The request to get your location timed out. Please try again.");
+            break;
+          default:
+            setLocationError("An unknown error occurred while trying to get your location.");
+            break;
+        }
+        setIsLoading(false);
+      },
+      { enableHighAccuracy: true, timeout: 10000, maximumAge: 0 }
+    );
   };
+  
+  const getButtonText = () => {
+      if(locationStatus === 'loading') return 'Getting Location...';
+      if(isLoading) return 'Analyzing...';
+      return 'Analyze Symptoms';
+  }
 
   return (
     <div>
       <div className="flex items-center gap-3">
-        <IconStethoscope className="w-8 h-8 text-blue-500"/>
+        <IconStethoscope className="w-8 h-8 text-blue-600"/>
         <h2 className="text-2xl font-bold text-slate-900">Symptom Checker & Triage</h2>
       </div>
-      <p className="mt-1 text-slate-600">Describe your symptoms to get an AI-powered triage recommendation.</p>
+      <p className="mt-1 text-slate-600">Describe your symptoms to get AI-powered, location-aware recommendations.</p>
       
       <div className="mt-4 p-4 bg-yellow-50 border-l-4 border-yellow-400 text-yellow-800 rounded-r-lg flex items-start gap-3">
         <IconAlertTriangle className="w-8 h-8 flex-shrink-0" />
         <div>
           <p className="font-bold">Disclaimer</p>
-          <p className="text-sm">This is not a medical diagnosis. It is for informational purposes only. If you are having a medical emergency, call 911 immediately.</p>
+          <p className="text-sm">This is not a medical diagnosis. If this is an emergency, call 911 immediately.</p>
         </div>
       </div>
 
-      <div className="mt-6">
-        <textarea
-          value={symptoms}
-          onChange={(e) => setSymptoms(e.target.value)}
-          placeholder="For example: 'I have a high fever, a persistent cough, and difficulty breathing.'"
-          className="w-full h-32 p-3 bg-slate-100 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
-        />
+      <div className="mt-6 space-y-4">
+        <div>
+            <label htmlFor="symptoms-input" className="block text-sm font-medium text-slate-800 mb-1">Your Symptoms</label>
+            <textarea
+                id="symptoms-input"
+                value={symptoms}
+                onChange={(e) => setSymptoms(e.target.value)}
+                placeholder="For example: 'I have a high fever, a persistent cough, and difficulty breathing.'"
+                className="w-full h-32 p-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+            />
+        </div>
       </div>
 
-      <div className="mt-4 text-right">
+      <div className="mt-6 flex justify-end items-center">
         <button
           onClick={handleSubmit}
-          disabled={symptoms.trim() === '' || isLoading}
-          className="bg-blue-600 text-white font-bold py-3 px-6 rounded-full hover:bg-blue-700 disabled:bg-slate-400 transition-all duration-200"
+          disabled={symptoms.trim() === '' || isLoading || locationStatus === 'loading'}
+          className="bg-blue-600 text-white font-bold py-3 px-8 rounded-full hover:bg-blue-700 disabled:bg-slate-400 transition-all duration-200"
         >
-          {isLoading ? 'Analyzing...' : 'Analyze Symptoms'}
+          {getButtonText()}
         </button>
       </div>
-
-      {error && (
+      
+      {(locationError || error) && (
          <div className="mt-6 p-4 bg-red-50 border-l-4 border-red-500 text-red-800 rounded-r-lg flex items-start gap-3 animate-fade-in">
             <IconAlertTriangle className="w-6 h-6 flex-shrink-0" />
             <div>
                 <p className="font-bold">Analysis Failed</p>
-                <p className="text-sm">{error}</p>
+                <p className="text-sm">{locationError || error}</p>
             </div>
          </div>
       )}
 
       {result && (
-        <div className="mt-6 space-y-6 animate-fade-in">
-          {result.emergency && (
-            <div className="p-4 bg-red-100 border-l-4 border-red-500 text-red-900 rounded-r-lg flex items-start gap-3">
-              <IconAlertTriangle className="w-10 h-10 flex-shrink-0" />
-              <div>
-                <h3 className="font-bold text-lg">Emergency Care Recommended</h3>
-                <p className="text-sm">Based on your symptoms, we strongly recommend seeking immediate medical attention.</p>
-                {result.emergency_contacts && (
-                  <p className="text-sm mt-2">
-                    Please contact: <strong className="font-semibold">{result.emergency_contacts.join(' or ')}</strong>
-                  </p>
-                )}
-              </div>
-            </div>
-          )}
-
-          <div className={`p-6 rounded-2xl border-l-8 ${getUrgencyStyles(result.urgency)}`}>
-            <h3 className="text-xl font-bold">Triage Result</h3>
-            <div className="mt-4 grid grid-cols-1 sm:grid-cols-3 gap-4">
-              <div>
-                <p className="text-sm font-semibold opacity-80">Urgency</p>
-                <p className="text-lg font-extrabold capitalize">{result.urgency}</p>
-              </div>
-              <div className="sm:col-span-2">
-                <p className="text-sm font-semibold opacity-80">Recommendation</p>
-                <p className="text-lg font-extrabold">{result.advice}</p>
-              </div>
-            </div>
-
-            {result.appointment_action.show && result.appointment_suggestion && (
-              <div className="mt-6 pt-4 border-t border-current/20">
-                <p className="font-semibold">{result.appointment_suggestion}</p>
-                <Link
-                  to={result.appointment_action.url || '/calendar'}
-                  className="mt-3 inline-flex items-center gap-2 bg-blue-600 hover:bg-blue-700 text-white font-bold py-3 px-6 rounded-full transition-all duration-200 ease-in-out transform hover:scale-105"
-                >
-                  <IconAppointments className="w-5 h-5" />
-                  <span>{result.appointment_action.label || 'Book Appointment'}</span>
-                </Link>
-              </div>
-            )}
-
-            {result.resources && result.resources.length > 0 && (
-              <div className="mt-6 pt-4 border-t border-current/20">
-                <h4 className="font-semibold">Helpful Resources</h4>
-                <ul className="mt-2 space-y-2 list-disc list-inside">
-                  {result.resources.map((link, index) => (
-                    <li key={index}>
-                      <a href={link} target="_blank" rel="noopener noreferrer" className="underline hover:opacity-80 transition-opacity">
-                        {link}
-                      </a>
-                    </li>
-                  ))}
-                </ul>
-              </div>
-            )}
+        <div className="mt-8 space-y-6 animate-fade-in">
+          <div className="p-4 bg-blue-50 border-l-4 border-blue-600 rounded-r-lg">
+              <p className="font-semibold text-blue-800">{result.message}</p>
+              {!result.action.out_of_range && (
+                 <p className="text-sm text-blue-700 mt-1">(Search Radius: {result.radius_km.toFixed(1)} km)</p>
+              )}
+          </div>
+          <div className="space-y-6">
+              {result.hospitals.map((hospital, index) => (
+                  <HospitalCard 
+                      key={index} 
+                      hospital={hospital} 
+                      isNearestFallback={result.action.show_nearest}
+                  />
+              ))}
           </div>
         </div>
       )}

@@ -163,6 +163,7 @@ export const RESOURCE_DIFFICULTIES = ['Beginner', 'Intermediate', 'Advanced'];
 
 
 export const THEMES: Record<ThemeName, { name: string; palette: ThemePalette }> = {
+  clinic: { name: 'Clinic', palette: { '--color-primary': '#007bff', '--color-primary-hover': '#0056b3', '--color-primary-light': '#e6f2ff', '--color-primary-text': '#004085', '--color-ring': '#80bdff', '--color-background': '#f8f9fa' } },
   sky: { name: 'Sky', palette: { '--color-primary': '#3b82f6', '--color-primary-hover': '#2563eb', '--color-primary-light': '#eff6ff', '--color-primary-text': '#1e40af', '--color-ring': '#60a5fa' } },
   coral: { name: 'Coral', palette: { '--color-primary': '#ef4444', '--color-primary-hover': '#dc2626', '--color-primary-light': '#fef2f2', '--color-primary-text': '#991b1b', '--color-ring': '#f87171' } },
   mint: { name: 'Mint', palette: { '--color-primary': '#10b981', '--color-primary-hover': '#059669', '--color-primary-light': '#ecfdf5', '--color-primary-text': '#065f46', '--color-ring': '#34d399' } },

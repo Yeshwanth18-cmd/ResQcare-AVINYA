@@ -30,6 +30,18 @@
     --color-border: #e2e8f0; /* slate-200 */
     --color-ring: #60a5fa; /* blue-400 */
   }
+  body[data-theme="clinic"] {
+    --color-primary: #2a8bf2; /* Professional blue from spec */
+    --color-primary-hover: #1e78d6; /* Slightly darker for hover */
+    --color-primary-light: #e6f7ff; /* Secondary from spec */
+    --color-primary-text: #0d5a9e; /* Darker blue for text on light bg */
+    --color-background: #f8f9fa; /* A very light grey for depth */
+    --color-surface: #ffffff; /* Pure white for cards */
+    --color-text-main: #111111; /* Text from spec */
+    --color-text-muted: #555555; /* Muted grey, higher contrast */
+    --color-border: #e2e8f0; /* Soft border color */
+    --color-ring: #5ba8f5; /* Ring color derived from primary */
+  }
   body[data-theme="coral"] {
     --color-primary: #ef4444; /* red-500 */
     --color-primary-hover: #dc2626; /* red-600 */
@@ -66,15 +78,18 @@
     --color-ring: #9ca3af; /* gray-400 */
     --color-background: #fdfcfb;
   }
-  /* Ensure smooth transitions */
+  /* Ensure smooth transitions and improved typography */
   body {
     background-color: var(--color-background);
     color: var(--color-text-main);
     transition: background-color 0.3s ease, color 0.3s ease;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
   }
 </style>
 </head>
-  <body>
+  <body data-theme="clinic">
     <div id="root"></div>
     <script type="module" src="/index.tsx"></script>
   </body>

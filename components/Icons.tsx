@@ -123,3 +123,11 @@ export const IconClock: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
 export const IconBarChart: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <Icon {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M3.75 3v11.25A2.25 2.25 0 006 16.5h2.25M3.75 3h-1.5m1.5 0h16.5m-16.5 0v11.25A2.25 2.25 0 005.25 16.5h13.5M15.75 3v11.25A2.25 2.25 0 0113.5 16.5h-2.25" /></Icon>
 );
+
+export const IconStar: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+    <Icon {...props} fill="currentColor"><path d="M11.48 3.499a.562.562 0 011.04 0l2.125 5.111a.563.563 0 00.475.345l5.518.442c.499.04.701.663.336 1.003l-4.12 3.575a.563.563 0 00-.162.524l1.08 5.432c.09.456-.433.813-.846.57l-4.92-2.946a.563.563 0 00-.527 0l-4.92 2.946c-.413.243-.936-.113-.846-.57l1.08-5.432a.563.563 0 00-.162-.524l-4.12-3.575c-.365-.34-.163-.963.336-1.003l5.518-.442a.563.563 0 00.475-.345L11.48 3.5z" /></Icon>
+);
+
+export const IconMapPin: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+  <Icon {...props}><path strokeLinecap="round" strokeLinejoin="round" d="M15 10.5a3 3 0 11-6 0 3 3 0 016 0z" /><path strokeLinecap="round" strokeLinejoin="round" d="M19.5 10.5c0 7.142-7.5 11.25-7.5 11.25S4.5 17.642 4.5 10.5a7.5 7.5 0 1115 0z" /></Icon>
+);
